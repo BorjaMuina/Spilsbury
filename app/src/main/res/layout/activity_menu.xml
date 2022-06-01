@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo"
+    tools:context=".MenuActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/buttonReto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200px"
+            android:layout_marginEnd="200px"
+            android:text="Reto" />
+
+        <Button
+            android:id="@+id/buttonJuego"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200px"
+            android:layout_marginEnd="200px"
+            android:text="Jugar" />
+
+        <Button
+            android:id="@+id/buttonRanking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200px"
+            android:layout_marginEnd="200px"
+            android:text="Ranking" />
+
+        <Button
+            android:id="@+id/buttonPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200px"
+            android:layout_marginEnd="200px"
+            android:text="Perfil" />
+
+        <Button
+            android:id="@+id/buttonOpciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200px"
+            android:layout_marginEnd="200px"
+            android:text="Opciones" />
+
+        <Button
+            android:id="@+id/buttonCerrarApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200px"
+            android:layout_marginEnd="200px"
+            android:text="Salir" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

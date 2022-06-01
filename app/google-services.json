@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "182530820293",
+    "project_id": "puzzles-spilsbury",
+    "storage_bucket": "puzzles-spilsbury.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182530820293:android:350acf8efcd51947e488ac",
+        "android_client_info": {
+          "package_name": "com.borja.spilsbury"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182530820293-ivs91nh1tduebud0l8oj4eeo2fnobv7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYAJE0HxP_qwvlr7M7gNYh_yZrutD9Axs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182530820293-ivs91nh1tduebud0l8oj4eeo2fnobv7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

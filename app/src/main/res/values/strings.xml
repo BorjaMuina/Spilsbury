@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SpilsBury</string>
+    <string name="prefs_file">com.borja.spilsbury.PREFERENCE_FILE_KEY</string>
+</resources>

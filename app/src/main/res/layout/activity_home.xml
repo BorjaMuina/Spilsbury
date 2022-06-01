@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context=".HomeActivity">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="20px"
+      android:textAlignment="center"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+      <TextView
+          android:id="@+id/textViewTituloEmail"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="2"
+          android:gravity="center"
+          android:text="Email:" />
+
+      <TextView
+          android:id="@+id/textViewEmail"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="1"
+          android:gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:layout_editor_absoluteX="4dp">
+
+      <TextView
+          android:id="@+id/textViewTituloProveedor"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="2"
+          android:gravity="center"
+          android:text="Tipo de Sesión:" />
+
+      <TextView
+          android:id="@+id/textViewProveedor"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="1"
+          android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+      <TextView
+          android:id="@+id/textViewTituloUsuario"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="2"
+          android:gravity="center"
+          android:text="Nombre de Usuario:" />
+
+      <EditText
+          android:id="@+id/editTextNombreUsuario"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="1"
+          android:gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        tools:layout_editor_absoluteX="3dp">
+
+      <TextView
+          android:id="@+id/textViewTituloPuntuacionlocal"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="0.8"
+          android:gravity="center"
+          android:text="Puntuación Local:" />
+
+      <TextView
+          android:id="@+id/textViewPuntuacionGlobal"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="1.2"
+          android:gravity="center" />
+
+      <TextView
+          android:id="@+id/textViewTituloPuntuacionOnline"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="0.8"
+          android:gravity="center"
+          android:text="Puntuación Online:" />
+
+      <TextView
+          android:id="@+id/textViewPuntuacionLocal"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_weight="1.2"
+          android:gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:weightSum="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+      <Button
+          android:id="@+id/buttonModificar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:backgroundTint="#039BE5"
+          android:text="Modificar datos"
+          android:textSize="12sp" />
+
+      <Button
+          android:id="@+id/buttonCerrarSesion"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:backgroundTint="#354388"
+          android:text="Cerrar sesión"
+          android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+      <Button
+          android:id="@+id/buttonSalir"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Ir al Menu" />
+
+    </LinearLayout>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
