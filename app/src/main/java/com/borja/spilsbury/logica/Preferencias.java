@@ -1,13 +1,19 @@
 package com.borja.spilsbury.logica;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.borja.spilsbury.AuthActivity;
 import com.borja.spilsbury.HomeActivity;
@@ -17,13 +23,20 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Preferencias extends AppCompatActivity {
 
+    private Bundle bundle;
+    private String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new PreferenciasFragment()).commit();
 
+        bundle = getIntent().getExtras();
+        email = bundle.getString("email");
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -59,6 +72,7 @@ public class Preferencias extends AppCompatActivity {
     // Lanzamos la activity del perfil del usuario
     public void lanzarPerfil(){
         Intent intent=new Intent(this, HomeActivity.class);
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 
@@ -71,6 +85,7 @@ public class Preferencias extends AppCompatActivity {
     // Lanzamos las preferencias
     public void lanzarPreferencias(){
         Intent intent=new Intent(this,Preferencias.class);
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 
@@ -84,5 +99,6 @@ public class Preferencias extends AppCompatActivity {
         Intent i=new Intent(this, AuthActivity.class);
         startActivity(i);
     }
+
 
 }

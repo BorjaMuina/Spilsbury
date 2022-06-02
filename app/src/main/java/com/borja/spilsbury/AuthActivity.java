@@ -75,14 +75,14 @@ public class AuthActivity extends AppCompatActivity {
         etContraseña = (EditText) findViewById(R.id.editTextPassword);
     }
 
-    // Comprobamos si hay una sesion iniciada, si es asi vamos a su perfil directamente
+    // Comprobamos si hay una sesion iniciada, si tenemos un usuario conectado vamos al menu directamente
     public void session() {
         sharedPrefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE);
         email = sharedPrefs.getString("email", null);
         proveedor = sharedPrefs.getString("proveedor", null);
 
         if (email != null && proveedor != null) {
-            showHome(email, ProviderType.valueOf(proveedor));
+            showMenu(email);
         }
     }
 
@@ -160,6 +160,14 @@ public class AuthActivity extends AppCompatActivity {
         Intent i = new Intent(AuthActivity.this, HomeActivity.class);
         i.putExtra("email", email);
         i.putExtra("proveedor", proveedor.toString());
+        startActivity(i);
+
+    }
+
+    // Mostramos la activity menu
+    public void showMenu(String email) {
+        Intent i = new Intent(AuthActivity.this, MenuActivity.class);
+        i.putExtra("email", email);
         startActivity(i);
 
     }

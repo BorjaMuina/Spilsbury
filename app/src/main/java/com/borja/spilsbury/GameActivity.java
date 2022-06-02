@@ -350,15 +350,27 @@ public class GameActivity extends AppCompatActivity {
     public void alertaFinalOnline() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("PUNTUACIÓN: " + puntosActuales);
-        builder.setMessage("Ten paciencia, mañana saldrá un nuevo reto")
+        builder.setMessage("Ten paciencia, mañana tendrás un nuevo reto")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(GameActivity.this, RankingActivity.class);
-                        startActivity(i);
+                        showRanking();
                     }
                 });
         builder.show();
+    }
+
+    // Mostramos menu
+    private void showHome() {
+        Intent i = new Intent(this, HomeActivity.class);
+        i.putExtra("email", email);
+        startActivity(i);
+    }
+
+    //Mostramos Ranking
+    private void showRanking() {
+        Intent i = new Intent(this, RankingActivity.class);
+        startActivity(i);
     }
 
 
@@ -408,37 +420,52 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void showHome() {
-        Intent i = new Intent(this, HomeActivity.class);
-        i.putExtra("email", email);
-        startActivity(i);
-    }
 
-    private void showRanking() {
-        Intent i = new Intent(this, RankingActivity.class);
-        startActivity(i);
-    }
 
+    // Controlamos el boton por defecto de ir atrás de android
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == event.KEYCODE_BACK) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("¿Quieres salir del Puzzle? La dificultad se reiniciara")
-                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dimension = 3;
-                            Intent i = new Intent(GameActivity.this, MenuActivity.class);
-                            startActivity(i);
-                        }
-                    })
-                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            builder.show();
+            if(tipoJuego.equals("local")){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("¿Quieres salir del Puzzle? La dificultad se reiniciara")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dimension = 3;
+                                Intent i = new Intent(GameActivity.this, MenuActivity.class);
+                                i.putExtra("email", email);
+                                startActivity(i);
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder.show();
+            }else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("¿Quieres salir del Puzzle? No se guardará el reto")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i = new Intent(GameActivity.this, MenuActivity.class);
+                                i.putExtra("email", email);
+                                startActivity(i);
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder.show();
+
+            }
+
         }
 
         return super.onKeyDown(keyCode, event);
