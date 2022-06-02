@@ -2,10 +2,12 @@ package com.borja.spilsbury;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -15,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -48,7 +51,6 @@ import java.util.concurrent.ExecutionException;
 public class GameActivity extends AppCompatActivity {
 
     public static final String KEY_IMAGEN = "IMAGEN";
-    public static final String KEY_BITMAP = "BITMAP";
     private static final String TAG = "MiActividad";
     private ImageView imagenPuzle;
     private Bitmap imagenMap, bitmap;
@@ -56,7 +58,7 @@ public class GameActivity extends AppCompatActivity {
     private GridView tablero;
     private Usuario user;
     private Bundle bundle;
-    private String email, tipoJuego,dispositivo, idImajen, url, fecha;
+    private String email, tipoJuego, dispositivo, idImajen, url, fecha;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private static int dimension = 3;
@@ -89,17 +91,14 @@ public class GameActivity extends AppCompatActivity {
         puntosActuales = 0;
         recuperarDatosUsuario();
         setImage();
-        new Handler().postDelayed(new Runnable() {
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(GameActivity.this, "Realizando el Puzzle", Toast.LENGTH_SHORT).show();
                 inicializarTablero();
             }
-        },2000);
-        /*Handler handler = new Handler();
-        handler.postDelayed(() -> {
+        },2000);*/
 
-        }, 2000);*/
     }
 
     public void recuperarDatosUsuario() {
@@ -128,6 +127,7 @@ public class GameActivity extends AppCompatActivity {
                     imagenMap = getIntent().getParcelableExtra(KEY_IMAGEN);
                     imagenPuzle.setImageBitmap(imagenMap);
                 }
+                inicializarTablero();
                 break;
             case "online":
                 fecha = obtenerFechaConFormato("yyyy-MM-dd", "GMT-1");
@@ -164,12 +164,16 @@ public class GameActivity extends AppCompatActivity {
                                     @Override
                                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                         imagenPuzle.setImageBitmap(resource);
+                                        inicializarTablero();
                                     }
 
                                     @Override
                                     public void onLoadCleared(@Nullable Drawable placeholder) {
+
                                     }
+
                                 });
+
 
                     }
                 });
@@ -235,7 +239,7 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
                 estableceDimension();
             }
-        },2000);
+        }, 2000);
 
     }
 
@@ -249,6 +253,7 @@ public class GameActivity extends AppCompatActivity {
 
         pintarPuzle();
     }
+
 
     private void pintarPuzle() {
         ArrayList<ImageView> fragmentos = new ArrayList<>();
@@ -269,6 +274,7 @@ public class GameActivity extends AppCompatActivity {
         tablero.setVisibility(View.VISIBLE);
     }
 
+    // Vamos asignando las nuevas posiciones a las piezas según son movidas en el tablero
     private void intercambia(int posicion) {
         //reproductor.start();
         Pieza piezaA, piezaB;
@@ -291,6 +297,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    // Vamos comprobando las posiciones de las piezas del puzzle
     private boolean isSolucion() {
         for (Pieza p : piezasDesordenadas) {
             if (p.getPosicionActual() != p.getPosicionFinal())
@@ -299,15 +306,59 @@ public class GameActivity extends AppCompatActivity {
         return true;
     }
 
+    // Dar los puntos obtenidos al usuario y mostrar la alerta final
     private void resolver() {
         fin = System.currentTimeMillis();
-        int puntos =  1000/(int)(fin - inicio);
+        int puntos = 1000000 / (int) (fin - inicio);
         puntosActuales += puntos;
-        Toast.makeText(this, "¡¡Puzle completado!!\n Puntuación: " + puntos, Toast.LENGTH_LONG).show();
-        dimension++;
-
         registrarPuntosFirebase(puntos);
-        showHome();
+
+        switch (tipoJuego) {
+            case "local":
+                alertaFinalLocal();
+                break;
+            case "online":
+                alertaFinalOnline();
+                break;
+        }
+
+    }
+
+    // Alerta final del juego local con los puntos conseguidos y preguntando si queremos seguir jugando
+    public void alertaFinalLocal() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("PUNTUACIÓN: " + puntosActuales);
+        builder.setMessage("¿Quieres seguir jugando? Se incrementará la dificultad")
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dimension++;
+                        Intent i = new Intent(GameActivity.this, ImageActivity.class);
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showHome();
+                    }
+                });
+        builder.show();
+    }
+
+    // Alerta final del juego online con los puntos conseguidos
+    public void alertaFinalOnline() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("PUNTUACIÓN: " + puntosActuales);
+        builder.setMessage("Ten paciencia, mañana saldrá un nuevo reto")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(GameActivity.this, RankingActivity.class);
+                        startActivity(i);
+                    }
+                });
+        builder.show();
     }
 
 
@@ -361,6 +412,36 @@ public class GameActivity extends AppCompatActivity {
         Intent i = new Intent(this, HomeActivity.class);
         i.putExtra("email", email);
         startActivity(i);
+    }
+
+    private void showRanking() {
+        Intent i = new Intent(this, RankingActivity.class);
+        startActivity(i);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == event.KEYCODE_BACK) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("¿Quieres salir del Puzzle? La dificultad se reiniciara")
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dimension = 3;
+                            Intent i = new Intent(GameActivity.this, MenuActivity.class);
+                            startActivity(i);
+                        }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.show();
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 }

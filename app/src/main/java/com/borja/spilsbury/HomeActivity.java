@@ -71,6 +71,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    // Iniciamos los componentes
     public void iniciarComponentes() {
         tvEmail = (TextView) findViewById(R.id.textViewEmail);
         tvProveedor = (TextView) findViewById(R.id.textViewProveedor);
@@ -82,6 +83,7 @@ public class HomeActivity extends AppCompatActivity {
         btnSalir = (Button) findViewById(R.id.buttonSalir);
     }
 
+    // Cerramos la sesion del usuario logeado y borramos las preferencias
     public void cerrarSesion() {
 
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +101,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    // Llamamos a los datos del usuario que hay en firebase, si es nuevo introducimos los datos necesarios.
     public void recuperarDatos() {
 
         db.collection("usuarios").document(email)
@@ -123,6 +126,7 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
+    // Mostramos los datos que recuperamos de firebase
     public void mostrarDatos(Usuario user){
         tvEmail.setText(user.getEmail());
         tvProveedor.setText(user.getProveedor());
@@ -131,6 +135,7 @@ public class HomeActivity extends AppCompatActivity {
         tvPuntuacionGlobal.setText(String.valueOf(user.getPuntuacionOnline()));
     }
 
+    // Guardamos un documento de preferencias con el email y proveedor para saber si hay algún usuario logeado
     public void guardarPreferencias(){
         sharedPrefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE);
         prefsEditor = sharedPrefs.edit();
@@ -139,6 +144,7 @@ public class HomeActivity extends AppCompatActivity {
         prefsEditor.commit();
     }
 
+    // Guardamos los datos del usuario en firebase en caso de ser un usuario nuevo
     public void guardarDatos(){
         db.collection("usuarios").document(user.getEmail())
                 .set(user)
@@ -156,6 +162,7 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
+    // Modificamos los datos del usuario en firebase, es decir el nombre de usuario por si lo cambia.
     public void modificarDatos() {
 
         btnModificar.setOnClickListener(new View.OnClickListener() {

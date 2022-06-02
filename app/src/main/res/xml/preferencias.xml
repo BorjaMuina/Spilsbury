@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    android:key="preferencias_principal">
+    <PreferenceCategory android:title="General">
+        <CheckBoxPreference
+            android:key="musica"
+            android:summary="Se reproduce música de fondo"
+            android:title="Reproducir música"
+            android:defaultValue="true"/>
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/tipoInterfaz"
+            android:entryValues="@array/tipoInterfazValor"
+            android:key="interfaz"
+            android:summary="Elige la interfaz"
+            android:title="Interfaz" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

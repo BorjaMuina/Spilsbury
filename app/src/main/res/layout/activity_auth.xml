@@ -78,7 +78,9 @@
             android:id="@+id/buttonGoogle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTintMode="add"
-            android:text="Google" />
+            android:drawableStart="@drawable/iconogoogle"
+            android:text="Google"
+            app:icon="@drawable/iconogoogle"
+            app:iconTintMode="multiply" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

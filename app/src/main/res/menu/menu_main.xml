@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/pefil"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="Perfil"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/ranking"
+        android:icon="@android:drawable/ic_search_category_default"
+        android:title="Ranking"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/preferencias"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Preferencias"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/cerrarSesion"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Cerrar sesion"
+        app:showAsAction="never" />
+
+</menu>
