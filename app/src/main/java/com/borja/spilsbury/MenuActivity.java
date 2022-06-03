@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.borja.spilsbury.logica.AudioService;
 import com.borja.spilsbury.logica.Preferencias;
 import com.borja.spilsbury.logica.Usuario;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -78,9 +79,7 @@ public class MenuActivity extends AppCompatActivity {
         btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MenuActivity.this, HomeActivity.class);
-                i.putExtra("email", email);
-                startActivity(i);
+                lanzarPerfil();
 
             }
         });
@@ -88,8 +87,7 @@ public class MenuActivity extends AppCompatActivity {
         btnRanking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MenuActivity.this, RankingActivity.class);
-                startActivity(i);
+                lanzarRanking();
 
             }
         });
@@ -97,9 +95,7 @@ public class MenuActivity extends AppCompatActivity {
         btnOpciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MenuActivity.this, Preferencias.class);
-                i.putExtra("email", email);
-                startActivity(i);
+               lanzarPreferencias();
             }
         });
 
@@ -112,25 +108,37 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    //Cargamos las preferencias del usuario en cuento a las opciones
     @Override
     public void onStart() {
         super.onStart();
         preferencias = PreferenceManager.getDefaultSharedPreferences(this);
     }
+
+    // Paramos la musica
+    @Override
+    public void onPause() {
+        super.onPause();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
+    }
+
+    // Comprobamos la preferencias
     @Override
     public void onResume() {
         super.onResume();
         comprobarPreferenciaInterfaz();
+        comprobarPreferenciaMusica();
+
     }
 
+    // Comprobamos que tema esta marcado
     private void comprobarPreferenciaInterfaz() {
-
         if (preferencias.getString("interfaz", "0").equals("0")) {
             lanzarInterfazClaro();
-
         } else {
             lanzarInterfazOscuro();
-
         }
     }
 
@@ -142,40 +150,29 @@ public class MenuActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
-    /*private void comprobarPreferenciaMusica() {
+    // Comprobamos si la musica esta activada o no
+    private void comprobarPreferenciaMusica() {
 
         if (preferencias.getBoolean("musica", true)) {
-            Toast.makeText(this, "Música activada en preferencias",
-                    Toast.LENGTH_LONG).show();
-
             lanzarMelodia();
 
         } else {
-            Toast.makeText(this, "Música no activada en preferencias",
-                    Toast.LENGTH_LONG).show();
             pararMelodia();
 
         }
     }
 
     private void lanzarMelodia() {
-        mp=MediaPlayer.create(this, R.raw.musicafondo);
-        if (!mp.isPlaying()) {
-            Toast.makeText(this, "Que suene la música",
-                    Toast.LENGTH_LONG).show();
-            mp.start();
-        }
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.START);
+        startService(i);
     }
 
     private void pararMelodia() {
-        if(mp!=null){
-            if (mp.isPlaying()) {
-                Toast.makeText(this, "Que pare la música",
-                        Toast.LENGTH_LONG).show();
-                mp.stop();
-            }
-        }
-    }*/
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
+    }
 
     public void inicializar() {
         btnReto = (Button) findViewById(R.id.buttonReto);
@@ -218,12 +215,14 @@ public class MenuActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    // Insertamos la barra de menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    // Comprobamos que item se ha seleccionado
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -258,6 +257,7 @@ public class MenuActivity extends AppCompatActivity {
     // Lanzamos la activity del Ranking online
     public void lanzarRanking() {
         Intent intent = new Intent(this, RankingActivity.class);
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 

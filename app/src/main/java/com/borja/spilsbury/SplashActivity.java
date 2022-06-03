@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
+import com.borja.spilsbury.logica.AudioService;
+
 public class SplashActivity extends AppCompatActivity {
 
     private SharedPreferences preferencias;
@@ -32,6 +34,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onStart();
         preferencias = PreferenceManager.getDefaultSharedPreferences(this);
         comprobarPreferenciaInterfaz();
+        comprobarPreferenciaMusica();
     }
 
     private void comprobarPreferenciaInterfaz() {
@@ -51,5 +54,29 @@ public class SplashActivity extends AppCompatActivity {
 
     public void lanzarInterfazClaro(){
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
+    // Comprobamos si la musica esta activada o no
+    private void comprobarPreferenciaMusica() {
+
+        if (preferencias.getBoolean("musica", true)) {
+            lanzarMelodia();
+
+        } else {
+            pararMelodia();
+
+        }
+    }
+
+    private void lanzarMelodia() {
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.START);
+        startService(i);
+    }
+
+    private void pararMelodia() {
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
     }
 }

@@ -62,7 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#039BE5"
-                android:text="Registrar" />
+                android:text="Registrar"
+                android:textColor="#FFFFFF" />
 
 
             <Button
@@ -70,8 +71,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#354388"
-                android:text="Acceder" />
+                android:backgroundTint="#165FB1"
+                android:text="Acceder"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
         <Button

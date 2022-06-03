@@ -156,6 +156,7 @@
           android:layout_weight="1"
           android:backgroundTint="#039BE5"
           android:text="Modificar datos"
+          android:textColor="#FFFFFF"
           android:textSize="12sp" />
 
       <Button
@@ -163,8 +164,9 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_weight="1"
-          android:backgroundTint="#354388"
+          android:backgroundTint="#165FB1"
           android:text="Cerrar sesión"
+          android:textColor="#FFFFFF"
           android:textSize="12sp" />
 
     </LinearLayout>

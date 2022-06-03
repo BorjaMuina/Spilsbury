@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class Preferencias extends AppCompatActivity {
 
     private Bundle bundle;
     private String email;
+    private SharedPreferences preferencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,72 @@ public class Preferencias extends AppCompatActivity {
         bundle = getIntent().getExtras();
         email = bundle.getString("email");
 
+    }
+
+    //Cargamos las preferencias del usuario en cuento a las opciones
+    @Override
+    public void onStart() {
+        super.onStart();
+        preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
+    // Paramos la musica
+    @Override
+    public void onPause() {
+        super.onPause();
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
+    }
+
+    // Comprobamos la preferencias
+    @Override
+    public void onResume() {
+        super.onResume();
+        comprobarPreferenciaInterfaz();
+        comprobarPreferenciaMusica();
+
+    }
+
+    // Comprobamos que tema esta marcado
+    private void comprobarPreferenciaInterfaz() {
+        if (preferencias.getString("interfaz", "0").equals("0")) {
+            lanzarInterfazClaro();
+        } else {
+            lanzarInterfazOscuro();
+        }
+    }
+
+    public void lanzarInterfazOscuro() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
+
+    public void lanzarInterfazClaro() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
+    // Comprobamos si la musica esta activada o no
+    private void comprobarPreferenciaMusica() {
+
+        if (preferencias.getBoolean("musica", true)) {
+            lanzarMelodia();
+
+        } else {
+            pararMelodia();
+
+        }
+    }
+
+    private void lanzarMelodia() {
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.START);
+        startService(i);
+    }
+
+    private void pararMelodia() {
+        Intent i = new Intent(this, AudioService.class);
+        i.putExtra("action", AudioService.PAUSE);
+        startService(i);
     }
 
 
@@ -79,6 +147,7 @@ public class Preferencias extends AppCompatActivity {
     // Lanzamos la activity del Ranking online
     public void lanzarRanking(){
         Intent intent=new Intent(this, RankingActivity.class);
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 
