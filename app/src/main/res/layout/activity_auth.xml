@@ -20,6 +20,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="290dp"
+            app:srcCompat="@drawable/logo2" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -83,6 +89,7 @@
             android:drawableStart="@drawable/iconogoogle"
             android:text="Google"
             app:icon="@drawable/iconogoogle"
-            app:iconTintMode="multiply" />
+            app:iconTint="#00FFFFFF"
+            app:iconTintMode="add" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

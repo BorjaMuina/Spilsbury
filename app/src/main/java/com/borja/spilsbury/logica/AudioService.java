@@ -94,7 +94,11 @@ public class AudioService extends Service {
     }
 
     private void pause() {
-        shouldPause = true;
+        if(loop==null){
+            shouldPause=false;
+        }else{
+            shouldPause = true;
+        }
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {

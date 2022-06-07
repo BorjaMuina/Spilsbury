@@ -7,14 +7,21 @@
     android:layout_gravity="center"
     tools:context=".HomeActivity">
 
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_margin="20px"
+      android:orientation="vertical"
       android:textAlignment="center"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       tools:layout_editor_absoluteX="8dp">
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        app:srcCompat="@drawable/titulorecortado" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -22,10 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10px"
         android:orientation="horizontal"
-        android:weightSum="4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:weightSum="4">
 
       <TextView
           android:id="@+id/textViewTituloEmail"
@@ -65,10 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10px"
         android:orientation="horizontal"
-        android:weightSum="6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+        android:weightSum="6">
 
       <TextView
           android:id="@+id/textViewTituloUsuario"
@@ -122,10 +123,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="10px"
-        android:weightSum="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+        android:weightSum="2">
 
       <Button
           android:id="@+id/buttonModificar"
@@ -152,10 +150,7 @@
         android:layout_height="50dp"
         android:layout_margin="10px"
         android:orientation="horizontal"
-        android:weightSum="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        android:weightSum="1">
 
       <Button
           android:id="@+id/buttonSalir"
@@ -166,6 +161,6 @@
 
     </LinearLayout>
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
