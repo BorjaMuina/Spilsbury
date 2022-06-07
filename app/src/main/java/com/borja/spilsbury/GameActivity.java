@@ -165,18 +165,10 @@ public class GameActivity extends AppCompatActivity {
         puntosActuales = 0;
         recuperarDatosUsuario();
         setImage();
-        /*new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(GameActivity.this, "Realizando el Puzzle", Toast.LENGTH_SHORT).show();
-                inicializarTablero();
-            }
-        },2000);*/
-
     }
 
+    // Recuperamos los datos del usuario logeado
     public void recuperarDatosUsuario() {
-
         db.collection("usuarios").document(email)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -190,6 +182,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
+    // Comprobamos que modo de juego se escogió y cargamos la imagen
     public void setImage() {
         switch (tipoJuego) {
             case "local":
@@ -212,6 +205,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    // Obtenemos la fecha actual
     @SuppressLint("SimpleDateFormat")
     public static String obtenerFechaConFormato(String formato, String zonaHoraria) {
         Calendar calendar = Calendar.getInstance();
@@ -222,6 +216,7 @@ public class GameActivity extends AppCompatActivity {
         return sdf.format(date);
     }
 
+    // En el modo online cargamos la imagen de la base de datos y la obtenemos con glide
     public void cargarImagen() {
         db.collection("Imajenes").document(idImajen)
                 .get()
@@ -240,18 +235,12 @@ public class GameActivity extends AppCompatActivity {
                                         imagenPuzle.setImageBitmap(resource);
                                         inicializarTablero();
                                     }
-
                                     @Override
                                     public void onLoadCleared(@Nullable Drawable placeholder) {
-
                                     }
-
                                 });
-
-
                     }
                 });
-
     }
 
     public void inicializarTablero() {
@@ -266,6 +255,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    // Dividimos la imagen en piezas y las guardamos en un ArrayList
     public void partirImagen() {
         piezas = new ArrayList<>();
         int ancho = 0;
@@ -292,6 +282,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    // Desordenamos el ArrayList de piezas
     public void desordenar() {
         ArrayList<Pieza> copiaPiezas = new ArrayList<>(piezas);
         Random random = new Random();
@@ -317,6 +308,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    // Guardamos el tiempo inicial y definimos las medidas del tablero
     private void estableceDimension() {
         inicio = System.currentTimeMillis();
         int displayWidth = tablero.getMeasuredWidth();
@@ -329,6 +321,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
+    // Pasamos los datos al ImagenAdapter y lo cargamos
     private void pintarPuzle() {
         ArrayList<ImageView> fragmentos = new ArrayList<>();
         for (Pieza p : piezasDesordenadas) {

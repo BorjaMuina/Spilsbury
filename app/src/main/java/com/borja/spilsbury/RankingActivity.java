@@ -122,7 +122,8 @@ public class RankingActivity extends AppCompatActivity {
         startService(i);
     }
 
-    public synchronized void crearAdaptador(){
+    // Pasamos los datos y mostramos el adaptador creado para el ranking
+    public void crearAdaptador(){
         RankingAdapter adaptador=new RankingAdapter(this, R.layout.ranking, listaUsuarios);
         listView.setAdapter(adaptador);
 
@@ -134,7 +135,8 @@ public class RankingActivity extends AppCompatActivity {
         });
     }
 
-    public synchronized void recuperarDatosUsuario() {
+    // Recuperamos los datos del usuario logeado
+    public void recuperarDatosUsuario() {
 
         db.collection("usuarios").orderBy("puntuacionOnline", Query.Direction.DESCENDING)
                 .get()
