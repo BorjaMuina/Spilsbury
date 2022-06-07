@@ -30,17 +30,17 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/linearLayout6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:weightSum="3">
 
                 <Button
-                    android:id="@+id/buttonCerrarApp"
+                    android:id="@+id/buttonReto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
-                    android:text="Salir" />
+                    android:text="Reto" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -48,11 +48,12 @@
                     android:layout_weight="1.4" />
 
                 <Button
-                    android:id="@+id/buttonOpciones"
+                    android:id="@+id/buttonJuego"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
-                    android:text="Opciones" />
+                    android:text="Jugar" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -83,17 +84,17 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:weightSum="3">
 
                 <Button
-                    android:id="@+id/buttonReto"
+                    android:id="@+id/buttonCerrarApp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
-                    android:text="Reto" />
+                    android:text="Salir" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -101,13 +102,13 @@
                     android:layout_weight="1.4" />
 
                 <Button
-                    android:id="@+id/buttonJuego"
+                    android:id="@+id/buttonOpciones"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
-                    android:text="Jugar" />
-
+                    android:text="Opciones" />
             </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
