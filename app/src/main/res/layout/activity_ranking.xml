@@ -23,7 +23,9 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="USUARIO" />
+            android:text="USUARIO"
+            android:textSize="20sp"
+            android:textStyle="bold|italic" />
 
         <TextView
             android:id="@+id/textView2"
@@ -31,7 +33,9 @@
             android:layout_height="40dp"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="PUNTOS" />
+            android:text="PUNTOS"
+            android:textSize="20sp"
+            android:textStyle="bold|italic" />
     </LinearLayout>
 
     <ListView

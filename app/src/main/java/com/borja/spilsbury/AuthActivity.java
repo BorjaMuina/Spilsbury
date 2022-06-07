@@ -334,16 +334,12 @@ public class AuthActivity extends AppCompatActivity {
 
     // Lanzamos la activity del perfil del usuario
     public void lanzarPerfil() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("email", email);
-        startActivity(intent);
+        alertAccesoDenegado();
     }
 
     // Lanzamos la activity del Ranking online
     public void lanzarRanking() {
-        Intent intent = new Intent(this, RankingActivity.class);
-        intent.putExtra("email", email);
-        startActivity(intent);
+        alertAccesoDenegado();
     }
 
     // Lanzamos las preferencias
@@ -362,6 +358,15 @@ public class AuthActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         Intent i = new Intent(this, AuthActivity.class);
         startActivity(i);
+    }
+
+    public void alertAccesoDenegado() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Error");
+        builder.setMessage("Debes estar logeado para acceder");
+        builder.setPositiveButton("Aceptar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
 
