@@ -113,7 +113,7 @@
           android:text="Puntuación Local:" />
 
       <TextView
-          android:id="@+id/textViewPuntuacionGlobal"
+          android:id="@+id/textViewPuntuacionLocal"
           android:layout_width="match_parent"
           android:layout_height="60dp"
           android:layout_weight="1.2"
@@ -128,7 +128,7 @@
           android:text="Puntuación Online:" />
 
       <TextView
-          android:id="@+id/textViewPuntuacionLocal"
+          android:id="@+id/textViewPuntuacionGlobal"
           android:layout_width="match_parent"
           android:layout_height="60dp"
           android:layout_weight="1.2"

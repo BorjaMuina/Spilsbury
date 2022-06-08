@@ -377,6 +377,10 @@ public class GameActivity extends AppCompatActivity {
     private void resolver() {
         fin = System.currentTimeMillis();
         int puntos = 1000000 / (int) (fin - inicio);
+        if(dimension!=3){
+            int bonus=(dimension-3)+1;
+            puntos=puntos*bonus;
+        }
         puntosActuales += puntos;
         registrarPuntosFirebase(puntos);
 
@@ -400,8 +404,7 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dimension++;
-                        Intent i = new Intent(GameActivity.this, ImageActivity.class);
-                        startActivity(i);
+                        showImage();
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -434,9 +437,16 @@ public class GameActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    private void showImage() {
+        Intent i = new Intent(this, ImageActivity.class);
+        i.putExtra("email", email);
+        startActivity(i);
+    }
+
     //Mostramos Ranking
     private void showRanking() {
         Intent i = new Intent(this, RankingActivity.class);
+        i.putExtra("email", email);
         startActivity(i);
     }
 
