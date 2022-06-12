@@ -378,8 +378,6 @@ public class GameActivity extends AppCompatActivity {
             puntos=puntos*bonus;
         }
         puntosActuales += puntos;
-        registrarPuntosFirebase(puntos);
-
         // Mostramos mensage final según el juego en el que estemos
         switch (tipoJuego) {
             case "local":
@@ -389,7 +387,7 @@ public class GameActivity extends AppCompatActivity {
                 alertaFinalOnline();
                 break;
         }
-
+        registrarPuntosFirebase(puntos);
     }
 
     // Alerta final del juego local con los puntos conseguidos y preguntando si queremos seguir jugando
