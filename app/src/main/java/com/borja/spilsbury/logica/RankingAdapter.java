@@ -23,7 +23,6 @@ public class RankingAdapter extends BaseAdapter {
         this.listaUsuarios = listaUsuarios;
     }
 
-
     @Override
     public int getCount() {
         return this.listaUsuarios.size();

@@ -6,18 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -25,13 +22,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.borja.spilsbury.logica.AudioService;
 import com.borja.spilsbury.logica.Preferencias;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.io.FileDescriptor;
-import java.io.IOException;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -57,7 +50,7 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-    //Cargamos las preferencias del usuario en cuento a las opciones
+    //Cargamos las preferencias del usuario en cuanto a las opciones guardadas
     @Override
     public void onStart() {
         super.onStart();
@@ -82,7 +75,7 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-    // Comprobamos que tema esta marcado
+    // Comprobamos que tema está marcado
     private void comprobarPreferenciaInterfaz() {
         if (preferencias.getString("interfaz", "0").equals("0")) {
             lanzarInterfazClaro();
@@ -91,32 +84,33 @@ public class ImageActivity extends AppCompatActivity {
         }
     }
 
+    // Activamos el tema oscuro
     public void lanzarInterfazOscuro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
+    // Activamos el tema claro
     public void lanzarInterfazClaro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     // Comprobamos si la musica esta activada o no
     private void comprobarPreferenciaMusica() {
-
         if (preferencias.getBoolean("musica", true)) {
             lanzarMelodia();
-
         } else {
             pararMelodia();
-
         }
     }
 
+    // Iniciamos música
     private void lanzarMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.START);
         startService(i);
     }
 
+    // Paramos música
     private void pararMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.PAUSE);
@@ -128,15 +122,16 @@ public class ImageActivity extends AppCompatActivity {
         buttonGaleria = (ImageButton) findViewById(R.id.imageButtonGaleria);
     }
 
+    // Modo de carga de imagen
     public void setup() {
-
+        // Cargamos imagen desde la camara
         buttonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cargarCamara();
             }
         });
-
+        // Cargamos la imagen desde la memoria del dispositivo
         buttonGaleria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,6 +141,7 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
+    // Cargamos imagen desde la cámara
     public void cargarCamara() {
         if (comprobarPermisos()) {
             Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -156,6 +152,7 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
+    //Cargamos imagen desde la memoria interna
     private void cargarGaleria() {
         if (comprobarPermisos()){
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -176,6 +173,7 @@ public class ImageActivity extends AppCompatActivity {
             intent.putExtra("juego", "local");
             intent.putExtra("dispositivo", "camara");
             startActivity(intent);
+            finish();
         } else if((requestCode == REQUEST_GALERIA && resultCode == RESULT_OK)){
             miPath=data.getData();
             assert miPath!=null;
@@ -187,10 +185,12 @@ public class ImageActivity extends AppCompatActivity {
             intent.putExtra("juego", "local");
             intent.putExtra("dispositivo", "galeria");
             startActivity(intent);
+            finish();
         }
 
     }
 
+    // Comprobamos los permisos
     @RequiresApi(api= Build.VERSION_CODES.M)
     public boolean comprobarPermisos() {
             if (checkSelfPermission(
@@ -204,14 +204,11 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(this, "El permiso de acceso a datos del teléfono es necesario para acceder a las imagenes de la galería", Toast.LENGTH_SHORT).show();
 
                 }
-
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                         REQUEST_READ_EXTERNAL_CONTENT);
-
             }else{
                 return true;
             }
-
         return false;
     }
 

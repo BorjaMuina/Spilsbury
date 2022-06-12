@@ -2,9 +2,7 @@ package com.borja.spilsbury.logica;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -17,7 +15,6 @@ public class ImagenAdapter extends BaseAdapter {
         fragmentos = buttons;
         ancho = columnWidth;
         alto = columnHeight;
-
     }
 
     @Override

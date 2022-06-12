@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,9 +26,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.borja.spilsbury.logica.AudioService;
 import com.borja.spilsbury.logica.ImagenAdapter;
 import com.borja.spilsbury.logica.Pieza;
@@ -37,7 +33,6 @@ import com.borja.spilsbury.logica.Preferencias;
 import com.borja.spilsbury.logica.Usuario;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,14 +41,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
-import java.util.concurrent.ExecutionException;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -67,12 +60,10 @@ public class GameActivity extends AppCompatActivity {
     private Bundle bundle;
     private String email, tipoJuego, dispositivo, idImajen, url, fecha;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     private static int dimension = 3;
     private static int anchoColum, altoColum;
     private ArrayList<Pieza> piezas;
     private ArrayList<Pieza> piezasDesordenadas;
-
     private Animation animacion;
     private int puntosActuales;
     private Long inicio;
@@ -92,7 +83,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    //Cargamos las preferencias del usuario en cuento a las opciones
+    //Cargamos las preferencias del usuario en cuanto a las opciones
     @Override
     public void onStart() {
         super.onStart();
@@ -126,32 +117,33 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    // Activamos modo oscuro
     public void lanzarInterfazOscuro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
+    // Activamos modo claro
     public void lanzarInterfazClaro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
-    // Comprobamos si la musica esta activada o no
+    // Comprobamos si la música esta activada o no
     private void comprobarPreferenciaMusica() {
-
         if (preferencias.getBoolean("musica", true)) {
             lanzarMelodia();
-
         } else {
             pararMelodia();
-
         }
     }
 
+    // Iniciamos música
     private void lanzarMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.START);
         startService(i);
     }
 
+    // Paramos música
     private void pararMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.PAUSE);
@@ -243,6 +235,7 @@ public class GameActivity extends AppCompatActivity {
                 });
     }
 
+    // Mostramos la imagen y ejecutamos lo métodos para crear el puzzle
     public void inicializarTablero() {
         piezas = new ArrayList<>();
         piezasDesordenadas = new ArrayList<>();
@@ -298,6 +291,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    // Tiempo de creación del puzle
     private void pintar() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -341,7 +335,7 @@ public class GameActivity extends AppCompatActivity {
         tablero.setVisibility(View.VISIBLE);
     }
 
-    // Vamos asignando las nuevas posiciones a las piezas según son movidas en el tablero
+    // Vamos asignando las nuevas posiciones a las piezas según se mueven en el tablero
     private void intercambia(int posicion) {
         //reproductor.start();
         Pieza piezaA, piezaB;
@@ -359,6 +353,7 @@ public class GameActivity extends AppCompatActivity {
             posicionB = -1;
             pintarPuzle();
         }
+        // Comprobamos se está resuelto el puzle
         if (isSolucion()) {
             resolver();
         }
@@ -373,10 +368,11 @@ public class GameActivity extends AppCompatActivity {
         return true;
     }
 
-    // Dar los puntos obtenidos al usuario y mostrar la alerta final
+    // Asignar los puntos obtenidos al usuario y mostrar la alerta final
     private void resolver() {
         fin = System.currentTimeMillis();
         int puntos = 1000000 / (int) (fin - inicio);
+        // Comprobamos la dificultad del puzle
         if(dimension!=3){
             int bonus=(dimension-3)+1;
             puntos=puntos*bonus;
@@ -384,6 +380,7 @@ public class GameActivity extends AppCompatActivity {
         puntosActuales += puntos;
         registrarPuntosFirebase(puntos);
 
+        // Mostramos mensage final según el juego en el que estemos
         switch (tipoJuego) {
             case "local":
                 alertaFinalLocal();
@@ -435,8 +432,10 @@ public class GameActivity extends AppCompatActivity {
         Intent i = new Intent(this, HomeActivity.class);
         i.putExtra("email", email);
         startActivity(i);
+        finish();
     }
 
+    // Volvemos a escoger el tipo de carga de imagen en el modo local
     private void showImage() {
         Intent i = new Intent(this, ImageActivity.class);
         i.putExtra("email", email);
@@ -448,6 +447,7 @@ public class GameActivity extends AppCompatActivity {
         Intent i = new Intent(this, RankingActivity.class);
         i.putExtra("email", email);
         startActivity(i);
+        finish();
     }
 
 
@@ -493,8 +493,6 @@ public class GameActivity extends AppCompatActivity {
                         });
                 break;
         }
-
-
     }
 
 
@@ -512,6 +510,7 @@ public class GameActivity extends AppCompatActivity {
                                 Intent i = new Intent(GameActivity.this, MenuActivity.class);
                                 i.putExtra("email", email);
                                 startActivity(i);
+                                finish();
                             }
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -530,6 +529,7 @@ public class GameActivity extends AppCompatActivity {
                                 Intent i = new Intent(GameActivity.this, MenuActivity.class);
                                 i.putExtra("email", email);
                                 startActivity(i);
+                                finish();
                             }
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -539,12 +539,54 @@ public class GameActivity extends AppCompatActivity {
                             }
                         });
                 builder.show();
-
             }
-
         }
-
         return super.onKeyDown(keyCode, event);
+    }
+
+    // Controlamos el boton por defecto de ir atrás de android 12 y algunas versiones
+    @Override
+    public void onBackPressed() {
+        if (tipoJuego.equals("local")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("¿Quieres salir del Puzzle? La dificultad se reiniciara")
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dimension = 3;
+                            Intent i = new Intent(GameActivity.this, MenuActivity.class);
+                            i.putExtra("email", email);
+                            startActivity(i);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.show();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("¿Quieres salir del Puzzle? No se guardará el reto")
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(GameActivity.this, MenuActivity.class);
+                            i.putExtra("email", email);
+                            startActivity(i);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.show();
+        }
     }
 
     // Insertamos la barra de menu
@@ -600,7 +642,7 @@ public class GameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Cerramos la sesion del usuario, borramos las preferencias del usuario y volvemos a la activity de autentificación.
+    // Cerramos la sesión del usuario, borramos las preferencias del usuario y volvemos a la activity de autentificación.
     public void cerrarSesion() {
         SharedPreferences sharedPrefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = sharedPrefs.edit();
@@ -610,5 +652,4 @@ public class GameActivity extends AppCompatActivity {
         Intent i = new Intent(this, AuthActivity.class);
         startActivity(i);
     }
-
 }

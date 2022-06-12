@@ -3,21 +3,17 @@ package com.borja.spilsbury;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
 import com.borja.spilsbury.logica.AudioService;
 import com.borja.spilsbury.logica.Preferencias;
 import com.borja.spilsbury.logica.Usuario;
@@ -25,7 +21,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,7 +33,6 @@ public class MenuActivity extends AppCompatActivity {
     private Button btnReto, btnJugar, btnPerfil, btnRanking, btnOpciones, btnSalir;
     private Usuario user;
     private FirebaseFirestore db;
-    private MediaPlayer mp;
     private SharedPreferences preferencias;
 
     @Override
@@ -52,6 +46,7 @@ public class MenuActivity extends AppCompatActivity {
         recuperarDatosUsuario();
         inicializar();
 
+        // Iniciamos modo de juego online
         btnReto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +61,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        // Iniciamos modo de juego local
         btnJugar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,14 +72,15 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        // Abrimos el perfil del usuario
         btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lanzarPerfil();
-
             }
         });
 
+        // Abrimos el ranking global
         btnRanking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +89,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        // Vamos a las preferencias del usuario
         btnOpciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +97,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        // Salimos de la aplicación
         btnSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +107,7 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-    //Cargamos las preferencias del usuario en cuento a las opciones
+    //Cargamos las preferencias del usuario en cuanto a las opciones guardadas
     @Override
     public void onStart() {
         super.onStart();
@@ -142,32 +141,33 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
+    // Activamos modo oscuro
     public void lanzarInterfazOscuro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
+    // Activamos modo claro
     public void lanzarInterfazClaro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     // Comprobamos si la musica esta activada o no
     private void comprobarPreferenciaMusica() {
-
         if (preferencias.getBoolean("musica", true)) {
             lanzarMelodia();
-
         } else {
             pararMelodia();
-
         }
     }
 
+    // Activamos música
     private void lanzarMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.START);
         startService(i);
     }
 
+    // Paramos música
     private void pararMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.PAUSE);
@@ -183,6 +183,7 @@ public class MenuActivity extends AppCompatActivity {
         btnSalir = (Button) findViewById(R.id.buttonCerrarApp);
     }
 
+    // obtenemos la fecha actual con formato
     @SuppressLint("SimpleDateFormat")
     public static String obtenerFechaConFormato(String formato, String zonaHoraria) {
         Calendar calendar = Calendar.getInstance();
@@ -193,6 +194,7 @@ public class MenuActivity extends AppCompatActivity {
         return sdf.format(date);
     }
 
+    // Recuperamos datos del usuario logeado
     private void recuperarDatosUsuario() {
         db.collection("usuarios").document(email)
                 .get()
@@ -206,6 +208,7 @@ public class MenuActivity extends AppCompatActivity {
                 });
     }
 
+    // Alerta a partir de un 1 juego diario
     public void showAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("INFO");

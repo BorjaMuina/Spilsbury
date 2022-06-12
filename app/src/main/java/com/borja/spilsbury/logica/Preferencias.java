@@ -1,21 +1,14 @@
 package com.borja.spilsbury.logica;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
 import com.borja.spilsbury.AuthActivity;
 import com.borja.spilsbury.HomeActivity;
 import com.borja.spilsbury.R;
@@ -73,32 +66,33 @@ public class Preferencias extends AppCompatActivity {
         }
     }
 
+    // Activamos interfaz oscura
     public void lanzarInterfazOscuro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
+    // Activamos interfaz clara
     public void lanzarInterfazClaro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     // Comprobamos si la musica esta activada o no
     private void comprobarPreferenciaMusica() {
-
         if (preferencias.getBoolean("musica", true)) {
             lanzarMelodia();
-
         } else {
             pararMelodia();
-
         }
     }
 
+    // Activamos música
     private void lanzarMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.START);
         startService(i);
     }
 
+    // Pausamos música
     private void pararMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.PAUSE);
@@ -106,6 +100,7 @@ public class Preferencias extends AppCompatActivity {
     }
 
 
+    // Creamos el menu de opciones
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -113,6 +108,7 @@ public class Preferencias extends AppCompatActivity {
         return true;
     }
 
+    // Comprobamos item seleccionado
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -168,6 +164,4 @@ public class Preferencias extends AppCompatActivity {
         Intent i=new Intent(this, AuthActivity.class);
         startActivity(i);
     }
-
-
 }

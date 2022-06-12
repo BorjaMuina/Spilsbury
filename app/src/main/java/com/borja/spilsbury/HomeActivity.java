@@ -3,7 +3,6 @@ package com.borja.spilsbury;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,11 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.borja.spilsbury.logica.AudioService;
 import com.borja.spilsbury.logica.Preferencias;
 import com.borja.spilsbury.logica.Usuario;
-import com.bumptech.glide.disklrucache.DiskLruCache;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,7 +30,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "MiActividad";
-
     private Bundle bundle;
     private String email, proveedor, nombreUsuario, fechaReto;
     private int puntuacionLocal, puntuacionGlobal;
@@ -44,7 +40,6 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences.Editor prefsEditor;
     private Usuario user;
     private SharedPreferences preferencias;
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -61,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         // Recuperar datos del usuario si existe
         recuperarDatos();
 
-        // Iniciar sesión
+        // Cerrar sesión
         cerrarSesion();
 
         // Modificamos datos del usuario
@@ -122,22 +117,21 @@ public class HomeActivity extends AppCompatActivity {
 
     // Comprobamos si la musica esta activada o no
     private void comprobarPreferenciaMusica() {
-
         if (preferencias.getBoolean("musica", true)) {
             lanzarMelodia();
-
         } else {
             pararMelodia();
-
         }
     }
 
+    // Activamos música
     private void lanzarMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.START);
         startService(i);
     }
 
+    // Paramos música
     private void pararMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.PAUSE);
@@ -158,7 +152,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // Cerramos la sesion del usuario logeado y borramos las preferencias
     public void cerrarSesion() {
-
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,12 +164,10 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
     }
 
     // Llamamos a los datos del usuario que hay en firebase, si es nuevo introducimos los datos necesarios.
     public void recuperarDatos() {
-
         db.collection("usuarios").document(email)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -192,6 +183,7 @@ public class HomeActivity extends AppCompatActivity {
                             user=new Usuario(email, proveedor, nombreUsuario, puntuacionLocal, puntuacionGlobal, fechaReto);
                             guardarDatos();
                         }
+                        // Mostramos los datos del usuario
                         mostrarDatos(user);
                         // Guardar preferencias del usuario logeado
                         guardarPreferencias();
@@ -259,7 +251,6 @@ public class HomeActivity extends AppCompatActivity {
                         });
             }
         });
-
     }
 
     // Insertamos la barra de menu

@@ -19,14 +19,6 @@ public class Usuario {
         this.puntuacionOnline=puntuacionOnline;
     }
 
-    public Usuario(String email, String proveedor) {
-        this.email = email;
-        this.proveedor = proveedor;
-    }
-
-    public Usuario() {
-    }
-
     public String getEmail() {
         return email;
     }

@@ -3,21 +3,17 @@ package com.borja.spilsbury;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.borja.spilsbury.logica.AudioService;
 import com.borja.spilsbury.logica.Preferencias;
 import com.borja.spilsbury.logica.RankingAdapter;
@@ -29,14 +25,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.core.OrderBy;
-
 import java.util.ArrayList;
-
 
 public class RankingActivity extends AppCompatActivity {
 
-    private final static String TAG="1";
     private ListView listView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Usuario user;
@@ -53,7 +45,6 @@ public class RankingActivity extends AppCompatActivity {
         email = bundle.getString("email");
         listView=(ListView) findViewById(R.id.listView);
         recuperarDatosUsuario();
-
     }
 
     //Cargamos las preferencias del usuario en cuento a las opciones
@@ -90,32 +81,33 @@ public class RankingActivity extends AppCompatActivity {
         }
     }
 
+    // Activamos modo oscuro
     public void lanzarInterfazOscuro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
+    // Activamos modo claro
     public void lanzarInterfazClaro() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     // Comprobamos si la musica esta activada o no
     private void comprobarPreferenciaMusica() {
-
         if (preferencias.getBoolean("musica", true)) {
             lanzarMelodia();
-
         } else {
             pararMelodia();
-
         }
     }
 
+    // Iniciamos música
     private void lanzarMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.START);
         startService(i);
     }
 
+    // Paramos música
     private void pararMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.PAUSE);
@@ -137,7 +129,6 @@ public class RankingActivity extends AppCompatActivity {
 
     // Recuperamos los datos del usuario logeado
     public void recuperarDatosUsuario() {
-
         db.collection("usuarios").orderBy("puntuacionOnline", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -154,7 +145,6 @@ public class RankingActivity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
     // Insertamos la barra de menu

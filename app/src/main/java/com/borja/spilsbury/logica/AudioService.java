@@ -37,6 +37,7 @@ public class AudioService extends Service {
                 }
             }
 
+            // Comprobamos la acción
             switch (action) {
                 case INCREASE:
                     increase();
@@ -70,6 +71,7 @@ public class AudioService extends Service {
         return null;
     }
 
+    // Comprobamos si la musica esta inicializada y activada
     private void startLoop() {
         if (loop == null) {
             loop = MediaPlayer.create(this, R.raw.loop);
@@ -80,19 +82,23 @@ public class AudioService extends Service {
         }
     }
 
+    // Bajar volumen, no está implementado futura mejora
     private void decrease() {
         loop.setVolume(0.2f, 0.2f);
     }
 
+    // Subir volumen, no está implementado futura mejora
     private void increase() {
         loop.setVolume(1.0f, 1.0f);
     }
 
+    // activamos música
     private void start() {
         startLoop();
         shouldPause = false;
     }
 
+    // Pausamos música
     private void pause() {
         if(loop==null){
             shouldPause=false;
@@ -108,7 +114,4 @@ public class AudioService extends Service {
                     }
                 }, 100);
     }
-
-
-
 }

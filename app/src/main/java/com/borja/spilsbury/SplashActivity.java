@@ -18,6 +18,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // Ejecutamos un nuevo hilo runnable con un tiempo de espera para que cargue la pantalla
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -37,43 +39,42 @@ public class SplashActivity extends AppCompatActivity {
         comprobarPreferenciaMusica();
     }
 
+    // Comprobamos las preferencias guaradas del usuario en cuanto al interfaz
     private void comprobarPreferenciaInterfaz() {
-
         if (preferencias.getString("interfaz", "0").equals("0")) {
             lanzarInterfazClaro();
-
         } else {
             lanzarInterfazOscuro();
-
         }
     }
 
+    // Activamos el modo oscuro
     public void lanzarInterfazOscuro(){
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
+    // Activamos el modo claro
     public void lanzarInterfazClaro(){
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
-    // Comprobamos si la musica esta activada o no
+    // Comprobamos si la musica esta activada o no en las preferencias
     private void comprobarPreferenciaMusica() {
-
         if (preferencias.getBoolean("musica", true)) {
             lanzarMelodia();
-
         } else {
             pararMelodia();
-
         }
     }
 
+    // Activamos música
     private void lanzarMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.START);
         startService(i);
     }
 
+    // Paramos música
     private void pararMelodia() {
         Intent i = new Intent(this, AudioService.class);
         i.putExtra("action", AudioService.PAUSE);
