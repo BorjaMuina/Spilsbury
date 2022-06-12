@@ -19,6 +19,9 @@ public class Usuario {
         this.puntuacionOnline=puntuacionOnline;
     }
 
+    public Usuario(){
+
+    }
     public String getEmail() {
         return email;
     }
